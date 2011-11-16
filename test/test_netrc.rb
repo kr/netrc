@@ -1,7 +1,7 @@
 $VERBOSE = true
 require 'minitest/autorun'
 
-require 'netrc'
+require '../netrc/lib/netrc'
 
 class TestNetrc < MiniTest::Unit::TestCase
   def setup
@@ -86,5 +86,11 @@ class TestNetrc < MiniTest::Unit::TestCase
   def test_get_missing
     n = Netrc.read("data/sample.netrc")
     assert_equal(nil, n["x"])
+  end
+
+  def test_save
+    n = Netrc.read("data/sample.netrc")
+    n.save
+    assert_equal(File.read("data/sample.netrc"), n.unparse)
   end
 end
