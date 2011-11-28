@@ -1,9 +1,10 @@
 $VERBOSE = true
-require 'minitest/autorun'
+require 'test/unit'
+require 'fileutils'
 
 require '../netrc/lib/netrc'
 
-class TestNetrc < MiniTest::Unit::TestCase
+class TestNetrc < Test::Unit::TestCase
   def setup
     File.chmod(0600, "data/sample.netrc")
     File.chmod(0644, "data/permissive.netrc")
@@ -92,5 +93,12 @@ class TestNetrc < MiniTest::Unit::TestCase
     n = Netrc.read("data/sample.netrc")
     n.save
     assert_equal(File.read("data/sample.netrc"), n.unparse)
+  end
+
+  def test_save_create
+    FileUtils.rm_f("/tmp/created.netrc")
+    n = Netrc.read("/tmp/created.netrc")
+    n.save
+    assert_equal(0600, File.stat("/tmp/created.netrc").mode & 0777)
   end
 end

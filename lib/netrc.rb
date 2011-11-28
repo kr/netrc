@@ -1,5 +1,5 @@
 class Netrc
-  VERSION = "0.1"
+  VERSION = "0.4"
   Windows = (RUBY_PLATFORM =~ /win32|mingw32/i)
 
   def self.default_path
@@ -29,7 +29,7 @@ class Netrc
     tokens = []
     for line in lines
       content, comment = line.split(/(\s*#.*)/m)
-      tokens += content.split(/(?<=\s)(?=\S)|(?<=\S)(?=\s)/)
+      tokens += content.split(/\b/)
       if comment
         tokens << comment
       end
@@ -122,7 +122,7 @@ class Netrc
   end
 
   def save
-    File.open(@path, 'w') {|file| file.print(unparse)}
+    File.open(@path, 'w', 0600) {|file| file.print(unparse)}
   end
 
   def unparse
