@@ -1,3 +1,6 @@
+**This fork is no longer maintained. Please see the new official fork at:
+<https://github.com/geemus/netrc>**
+
 # Netrc
 
 This library reads and writes `.netrc` files.
